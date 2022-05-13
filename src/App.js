@@ -2,29 +2,39 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  let displayMsg = 'Enter Code 102938'
+  let code = '1234'
+  let displayMsg = 'Enter Code ' + code
+  // displayLen is the counter to keep track of how many characters we have in the display
   const [displayLen, setDisplayLen] = useState(0)
+  // displayNum is the string that will be displayed on the screen
   const [displayNum, setDisplayNum] = useState(displayMsg)
+  // btnCheckPressed keeps track if the button was pressed 
   const [btnCheckPressed, setBtnCheckPressed] = useState(false)
+
+  // every time we click a numeric button
+  // we check to see if the length os the display is less than 6 so we can have only 6 digits
+  // we check if the check button has been pressed so we can clear the display
 
   function numericBtn (i){
     if (displayLen < 6) {
+      // if the check button is pressed, we reset it and add the pressed number
       if(btnCheckPressed){
         setBtnCheckPressed(!btnCheckPressed)
         resetDisplay(i)
         return
       }
-
+      // when the display is clear, just add the number. if not, add the number to the end
       if(displayLen===0){
         setDisplayNum(i)
       }else{
         setDisplayNum(displayNum + i)
       }
-
+      // increase the display counter
       setDisplayLen(displayLen + 1)
     }
   }
 
+  // this function clear the display, reset the counter and add the number pressed to the display
   function resetDisplay (j){
     setDisplayNum(displayMsg)
     setDisplayLen(0)
@@ -32,7 +42,7 @@ function App() {
     return
   }
 
-
+  // this function takes the last element of the array and subtract from the display counter
   function backBtn (){
     if(!btnCheckPressed){
       let newDisplayNum = displayNum
@@ -42,10 +52,10 @@ function App() {
       }
     }
   }
-
+  // this function validates the display against the valid code and allows to restart the process
   function checkBtn (){
     if(!btnCheckPressed){
-      if(displayNum==='102938'){
+      if(displayNum===code){
         setDisplayNum('Code Valid')
       }else{
         setDisplayNum('Invalid Code')
@@ -61,7 +71,7 @@ function App() {
         <section className='displayRow'>
           <h2>{displayNum}</h2>
         </section>
-
+                                                            {/* instead of coding in each line, we call the same function with the parameter as the button value*/}
         <section className='firstRow'>
           <button type="button" className='btn btn-primary' id='btn-1' onClick={()=> numericBtn('1')}>1</button>
           <button type="button" className='btn btn-primary' id='btn-2' onClick={()=> numericBtn('2')}>2</button>
